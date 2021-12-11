@@ -16,13 +16,13 @@ void DrawState::Tick()
     if(!mLeftCtrlDown && mLMBDown && !mLastLMBDown)
     {
         if(mLeftShiftDown && mSelectedPoint != nullptr)
-            CreateLinePoint(mSelectedPoint->GetComponent<LinePointComponent>()->Position);
+            CreateLinePoint(mSelectedPoint->GetComponent<Opal::LinePointComponent>()->Position);
         else
             CreateLinePoint(mouse);
     }
     else if(mLinePoints.size() % 2 == 1)
     {
-        auto lastpoint = mLinePoints[mLinePoints.size()-1]->GetComponent<LinePointComponent>();
+        auto lastpoint = mLinePoints[mLinePoints.size()-1]->GetComponent<Opal::LinePointComponent>();
 
         mLineRenderer->DrawLine(lastpoint->Position, mouse, glm::vec4(0.8f, 0.8f, 0.8f, 1.0f), 3);
     }
@@ -30,7 +30,7 @@ void DrawState::Tick()
     // Movement
     if(mLeftCtrlDown && mLMBDown && mSelectedPoint != nullptr)
     {
-        auto linePoint = mSelectedPoint->GetComponent<LinePointComponent>();
+        auto linePoint = mSelectedPoint->GetComponent<Opal::LinePointComponent>();
         auto transform = mSelectedPoint->GetComponent<Opal::TransformComponent>();
 
         glm::vec2 movement = mouse - mLastMousePos;
@@ -125,7 +125,7 @@ std::shared_ptr<Opal::Entity> DrawState::CreateLinePoint(glm::vec2 position)
     auto res = std::make_shared<Opal::Entity>();
     auto trans = std::make_shared<Opal::TransformComponent>();
     trans->Position = glm::vec3(position.x, position.y, 0);
-    auto point = std::make_shared<LinePointComponent>(position, mLinePoints.size());
+    auto point = std::make_shared<Opal::LinePointComponent>(position, mLinePoints.size());
     auto collider = std::make_shared<Opal::BoxColliderComponent2D>(glm::vec2(mCircleRadius * 2, mCircleRadius *2), glm::vec2(-mCircleRadius, -mCircleRadius), true);
 
     res->AddComponent(trans);
@@ -143,8 +143,8 @@ void DrawState::DrawLines()
         auto trans1 = mLinePoints[i-1]->GetComponent<Opal::TransformComponent>();
         auto trans2 = mLinePoints[i]->GetComponent<Opal::TransformComponent>();
 
-        auto point1 = mLinePoints[i-1]->GetComponent<LinePointComponent>();
-        auto point2 = mLinePoints[i]->GetComponent<LinePointComponent>();
+        auto point1 = mLinePoints[i-1]->GetComponent<Opal::LinePointComponent>();
+        auto point2 = mLinePoints[i]->GetComponent<Opal::LinePointComponent>();
 
         mLineRenderer->DrawLine(point1->Position, point2->Position, (mLinePoints[i-1] == mSelectedPoint) ? mLineSelectedColor : mLineBaseColor, (mLinePoints[i] == mSelectedPoint) ? mLineSelectedColor : mLineBaseColor, 5);
     }
@@ -154,7 +154,7 @@ void DrawState::DrawPoints()
 {
     for(int i = 0; i < mLinePoints.size(); i++)
     {
-        auto point = mLinePoints[i]->GetComponent<LinePointComponent>();
+        auto point = mLinePoints[i]->GetComponent<Opal::LinePointComponent>();
 
         mCircleRenderer->DrawCircle(point->Position, mCircleRadius, (mLinePoints[i] == mSelectedPoint) ? mCircleSelectedColor : mCircleBaseColor, mCircleInnerRadius);
     }

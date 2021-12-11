@@ -9,13 +9,12 @@
 #include "../Opal/EntityComponent/Entity.h"
 #include "../Opal/EntityComponent/TransformComponent.h"
 #include "../Opal/EntityComponent/BoxColliderComponent2D.h"
+#include "../Opal/EntityComponent/LinePointComponent.h"
 
 #include "../Opal/Graphics/RenderPass.h"
 #include "../Opal/Graphics/LineRenderer.h"
 #include "../Opal/Graphics/CircleRenderer.h"
 #include "../Opal/Graphics/BatchRenderer2D.h"
-
-#include "../Components/LinePointComponent.h"
 
 class DrawState : public Opal::Gamestate 
 {
