@@ -15,10 +15,17 @@
 #include "../Opal/Graphics/LineRenderer.h"
 #include "../Opal/Graphics/CircleRenderer.h"
 #include "../Opal/Graphics/BatchRenderer2D.h"
+#include "../Opal/Graphics/Camera.h"
 
 class DrawState : public Opal::Gamestate 
 {
     public:
+
+    enum ToolState
+    {
+        DRAW,
+        SHADE
+    };
 
     virtual void Tick() override;
     virtual void Render() override;
@@ -30,10 +37,13 @@ class DrawState : public Opal::Gamestate
 
     private:
 
+    ToolState mCurrentState = ToolState::DRAW;
+
     static std::shared_ptr<Opal::RenderPass> mRenderPass;
     static std::shared_ptr<Opal::LineRenderer> mLineRenderer;
     static std::shared_ptr<Opal::CircleRenderer> mCircleRenderer;
     static std::shared_ptr<Opal::BatchRenderer2D> mBatchRenderer;
+    static std::shared_ptr<Opal::Camera> mCamera;
 
     std::shared_ptr<Opal::Scene> mScene;
 
@@ -57,6 +67,18 @@ class DrawState : public Opal::Gamestate
     bool mLeftShiftDown = false;
     bool mLastTabDown = false;
     bool mLeftCtrlDown = false;
+    bool mSpaceDown = false;
+    bool mLastSpaceDown = false;
 
     glm::vec2 mLastMousePos = glm::vec2(0,0);
+
+    float mCrossHatchingDistance = 10;
+    float mCrossHatchingAngle = 0;
+    bool mCrossHatchingOverlapping = false;
+    float mCrossHatchingOverlapDistance = 10;
+    float mCrossHatchingOverlapAngle = 0;
+    std::vector<std::shared_ptr<Opal::Entity> > mCrossHatchingBounds;
+    std::vector<std::shared_ptr<Opal::Entity> > mCrossHatchingPreview;
+    void GenerateCrossHatching();
+    void DrawCrossHatchingUI();
 };
