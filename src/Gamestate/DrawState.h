@@ -81,4 +81,10 @@ class DrawState : public Opal::Gamestate
     std::vector<std::shared_ptr<Opal::Entity> > mCrossHatchingPreview;
     void GenerateCrossHatching();
     void DrawCrossHatchingUI();
+
+    std::string mCurrentFileName = "CurrentDrawing/";
+    std::string GenerateCurrentFilePath();
+    bool mSaveButtonDown = false;
+    bool mLastSaveButtonDown = false;
+    int mCurrentLinePointId = 0;
 };
